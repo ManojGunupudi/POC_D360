@@ -26,11 +26,11 @@ jobs:
     - name: Publish
       run: dotnet publish -c Release -o publish
       
-    - name: Archive artifacts
+    - name: Download artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: publish-${{ env.CUSTOM_NAME }}-${{ steps.set_datetime.outputs.datetime }}
-        path: ./publish
+        name: ${{ env.CUSTOM_NAME }}-${{ steps.set_datetime.outputs.datetime }}
+        path: .
 
     env:
       CUSTOM_NAME: SampleNet_App
