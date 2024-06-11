@@ -12,7 +12,7 @@ jobs:
     steps:
     - name: Set Datetime
       id: set_datetime
-      run: echo "::set-output name=datetime::$(date +'%Y-%m-%d-%H-%M-%S')"
+      run: echo "::set-output name=datetime::$(TZ='Asia/Kolkata' date +'%Y-%m-%d-%H-%M-%S')"
 
     - name: Checkout code
       uses: actions/checkout@v2
