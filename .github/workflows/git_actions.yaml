@@ -4,17 +4,31 @@ on:
   push:
     branches:
       - main
-env:
- CURRENT_DATETIME: ${{ steps.set_datetime.outputs.datetime }}
- CUSTOM_NAME: SampleNet_Project
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      CURRENT_DATETIME: ${{ steps.set_datetime.outputs.datetime }}
+      CUSTOM_NAME: YourCustomName
+
     steps:
+    - name: Set Datetime
+      id: set_datetime
+      run: echo "::set-output name=datetime::$(date +'%Y-%m-%d-%H-%M-%S')"
+
     - name: Checkout code
       uses: actions/checkout@v2
-           
+      
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.x' # Update to the version of .NET Core you are using
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
     - name: Build
       run: dotnet build --configuration Release
       
@@ -26,6 +40,18 @@ jobs:
       
     - name: Archive artifacts
       uses: actions/upload-artifact@v2
+      with:
+        name: publish-${{ env.CUSTOM_NAME }}-${{ github.run_id }}-${{ env.CURRENT_DATETIME }}
+        path: ./publish
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v2
       with:
         name: publish-${{ env.CUSTOM_NAME }}-${{ github.run_id }}-${{ env.CURRENT_DATETIME }}
         path: ./publish
