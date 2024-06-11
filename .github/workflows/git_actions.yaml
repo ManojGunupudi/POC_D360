@@ -5,8 +5,8 @@ on:
     branches:
       - main
 env:
- ARTIFACT_NAME: Sample_Net_Application
  CURRENT_DATETIME: ${{ steps.set_datetime.outputs.datetime }}
+ CUSTOM_NAME: SampleNet_Project
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,5 +27,5 @@ jobs:
     - name: Archive artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ env.ARTIFACT_NAME }}-${{ env.CURRENT_DATETIME }}
+        name: publish-${{ env.CUSTOM_NAME }}-${{ github.run_id }}-${{ env.CURRENT_DATETIME }}
         path: ./publish
