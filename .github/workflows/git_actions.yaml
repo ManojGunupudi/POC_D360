@@ -6,6 +6,7 @@ on:
       - main
 env:
  ARTIFACT_NAME: Sample_Net_Application
+ CURRENT_DATETIME: ${{ steps.set_datetime.outputs.datetime }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,5 +27,5 @@ jobs:
     - name: Archive artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ env.ARTIFACT_NAME }}-$(date +"%Y-%m-%d-%H-%M-%S")
+        name: ${{ env.ARTIFACT_NAME }}-${{ env.CURRENT_DATETIME }}
         path: ./publish
