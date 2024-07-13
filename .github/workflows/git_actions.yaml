@@ -33,4 +33,4 @@ jobs:
         path: .
 
     env:
-      CUSTOM_NAME: SampleNet_App
+      CUSTOM_NAME: SampleNet_Application
